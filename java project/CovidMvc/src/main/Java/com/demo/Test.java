@@ -18,20 +18,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class Test {
 	
-	@RequestMapping("/covid")
-	public ModelAndView subt(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException {
+	@RequestMapping("/add")
+	public ModelAndView add(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		
 		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres","postgres","Deadp00l");
 		Statement stmt = conn.createStatement();
 		
 		
-		
-		//String s = rs.getString("location");
 		Map<String, Integer> m1 = new HashMap();
-		String s = request.getParameter("t1");
 		
-		ResultSet rs = stmt.executeQuery(s);
+		
+		ResultSet rs = stmt.executeQuery("SELECT location,Count(total_cases) FROM coviddata WHERE new_cases> 1000 GROUP BY location,total_cases,new_cases ORDER BY total_cases desc;"
+				);
 		while(rs.next()) {
 			m1.put(rs.getString("location"), rs.getInt("count"));
 		}
