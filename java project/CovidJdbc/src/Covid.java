@@ -14,9 +14,9 @@ public class Covid {
 		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres","postgres","Deadp00l");
 		Statement stmt = conn.createStatement();
 		
-		ResultSet rs = stmt.executeQuery("SELECT location, Count(total_cases ) FROM public.coviddata WHERE new_cases> 1000 GROUP BY location,total_cases order by total_cases;");
+		ResultSet rs = stmt.executeQuery("SELECT location, Count(total_cases ) FROM coviddata WHERE new_cases> 1000 GROUP BY location,total_cases order by total_cases;");
 		while(rs.next()) {
-			System.out.println(rs.getString("location"));
+			System.out.println(rs.getString(1)+" "+rs.getString(2));
 		}
 		
 		conn.close();
